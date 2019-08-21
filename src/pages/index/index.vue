@@ -1,29 +1,25 @@
 <template>
-  <div>
-    <!-- <span class="msg">Hello World</span> -->
-    <van-button type="primary" @click="jump">按钮</van-button>
-    <!-- <van-icon name="close"/> -->
-    <!-- <button @click="jump">按钮</button> -->
+  <div class="home">
+    <searchbar
+      :disabled="false"
+      @onClick="onSearchbarClick"
+    />
   </div>
 </template>
 
 <script>
-import { post } from '@/utils/request'
+import Searchbar from '@/components/Searchbar.vue'
 export default {
+  components: {
+    Searchbar
+  },
   methods: {
-    jump () {
-      post('http://www.baidu.com').then(response => {
-        console.log('12345')
-      })
+    onSearchbarClick () {
+
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .msg {
-    color: red;
-    font-size: 20px;
-    font-weight: bold;
-  }
 </style>
