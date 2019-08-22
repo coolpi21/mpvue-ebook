@@ -99,7 +99,7 @@ export default {
       padding: 13px 0 0 21px;
     }
     .home-book-content {
-      padding: 22.5px 12px 0 20px;
+      padding: 22.5px 20px 0;
       .home-book-content-row {
         display: flex;
         flex-flow: row nowrap;
