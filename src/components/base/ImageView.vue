@@ -1,0 +1,83 @@
+<template>
+  <div class="image-view" @click="onClick">
+    <img
+      :class="round ? 'round image' : 'image'"
+      :src="src"
+      :mode="mode"
+      :lazy-load="lazyLoad"
+      :style="{ height }"
+      @load="onLoad"
+      @error="onError"
+      v-show="!isLoading && !error"
+    />
+    <img
+      :class="round ? 'round image' : 'image'"
+      src="https://www.youbaobao.xyz/book/img/loading2.ae9e5924.jpeg"
+      :mode="mode"
+      :lazy-load="lazyLoad"
+      :style="{ height }"
+      v-show="isLoading || error"
+    />
+  </div>
+</template>
+<script>
+export default {
+  props: {
+    src: {
+      type: String,
+      default: ''
+    },
+    mode: {
+      type: String,
+      default: 'widthFix'
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: true
+    },
+    round: {
+      type: Boolean,
+      default: false
+    },
+    height: {
+      type: String,
+      default: 'auto'
+    }
+  },
+  data () {
+    return {
+      isLoading: true,
+      error: false
+    }
+  },
+  watch: {
+    src (newValue, preValue) {}
+  },
+  methods: {
+    onClick () {
+      this.$emit('onClick')
+    },
+    onLoad () {
+      this.isLoading = false
+      this.error = false
+      console.log('isLoad')
+    },
+    onError () {
+      this.error = true
+      this.isLoading = false
+      console.log('isError')
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+  .image-view {
+    width: 100%;
+    .image {
+      width: 100%;
+      &.round {
+        border-radius: 50%;
+      }
+    }
+  }
+</style>

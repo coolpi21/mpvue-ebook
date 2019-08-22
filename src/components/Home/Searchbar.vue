@@ -20,15 +20,15 @@
         confirm-type="search"
         placeholder-style="color: #ADB4BE"
       />
-      <div class="close"
+      <div
+        class="close"
         @click="onClearClick"
-        v-if="searchWord.length > 0"
       >
         <van-icon
           size="16px"
           color="#858C96"
           name="close"
-
+          v-if="searchWord.length > 0"
         />
       </div>
     </div>
@@ -103,7 +103,7 @@ export default {
       }
       .search, .close {
         display: flex;
-        height: 100%;
+        height: 20px;
         align-items: center;
       }
 
