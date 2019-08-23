@@ -5,7 +5,7 @@
       :src="src"
       :mode="mode"
       :lazy-load="lazyLoad"
-      :style="{ height }"
+      :style="{ height, width }"
       @load="onLoad"
       @error="onError"
       v-show="!isLoading && !error"
@@ -42,7 +42,8 @@ export default {
     height: {
       type: String,
       default: 'auto'
-    }
+    },
+    width: String
   },
   data () {
     return {
