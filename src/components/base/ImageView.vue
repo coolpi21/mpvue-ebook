@@ -52,7 +52,14 @@ export default {
     }
   },
   watch: {
-    src (newValue, preValue) {}
+    src (newValue, preValue) {
+      if (newValue && newValue.length > 0 && newValue !== preValue) {
+        this.$nextTick(() => {
+          this.isLoading = true
+          this.error = false
+        })
+      }
+    }
   },
   methods: {
     onClick () {
@@ -61,12 +68,12 @@ export default {
     onLoad () {
       this.isLoading = false
       this.error = false
-      console.log('isLoad')
+      // console.log('isLoad')
     },
     onError () {
       this.error = true
       this.isLoading = false
-      console.log('isError')
+      // console.log('isError')
     }
   }
 }

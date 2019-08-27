@@ -9,20 +9,22 @@
       >
           <div class="home-book-content-list" v-for="(book, bookIndex) in item"
             :key="bookIndex"
-            :style="{flex: '0,1,' + 100/col +'%', flexDirection: mode === HomeBookMode.ROW ?  'row' : 'column'}"
+
             @click="onBookClick"
           >
-            <div class="home-book-card-list" v-if="mode === HomeBookMode.COL || mode === HomeBookMode.ROW">
+            <div class="home-book-card-list" v-if="mode === HomeBookMode.COL || mode === HomeBookMode.ROW"
+            :style="{display: 'flex',flex: '0,1,' + 100/col +'%', flexDirection: mode === HomeBookMode.ROW ?  'row' : 'column'}">
               <div class="book-pic">
                   <ImageView
                   :src="book.cover"
-                  height="88px"
-                  width="64px"
-                  mode="scaleToFill"
+                  :height="height"
+                  :width="width"
+                  :mode="mode"
                   />
                 </div>
               <div class="book-content-wrapper" >
-                <div class="book-title book-title-col" v-if="mode === HomeBookMode.COL">
+                <div class="book-title book-title-col" v-if="mode === HomeBookMode.COL"
+                :style="{width}">
                   {{book.title}}
                 </div>
                 <div class="book-title book-title-row" v-else>
@@ -101,7 +103,10 @@ export default {
     linearBg: {
       type: Boolean,
       default: false
-    }
+    },
+    height: String,
+    width: String,
+    imgMode: String
   },
   computed: {
     HomeBookMode () {
@@ -158,7 +163,7 @@ export default {
           .book-content-wrapper {
             .book-title {
               &.book-title-col {
-                width: 101px;
+                // width: 101px;
                 font-size: 12px;
                 line-height: 16.5px;
                 font-weight: 500;
@@ -190,6 +195,9 @@ export default {
                   font-size: 12px;
                   color: #868686;
                   line-height: 14px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
                 }
               }
             }
@@ -243,7 +251,7 @@ export default {
       }
     }
     .home-book-footer {
-      padding: 0 20px 20px;
+      padding: 0 20px;
     }
   }
 </style>

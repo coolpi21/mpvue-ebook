@@ -18,7 +18,7 @@
         @input="onChange"
         @confirm="onConfirm"
         confirm-type="search"
-        placeholder-style="color: #ADB4BE"
+        placeholder-style="color: #ADB4BE; font-size: 15px;"
       />
       <div
         class="close"

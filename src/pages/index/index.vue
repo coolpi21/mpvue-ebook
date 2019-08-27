@@ -2,9 +2,13 @@
   <div class="home">
     <searchbar
       :disabled="false"
+      :focus="false"
       @onClick="onSearchbarClick"
+      :hot-search="hotSearch"
     />
-    <HomeCard />
+    <HomeCard
+      :data="cardData"
+    />
     <HomeBanner
       img="http://www.youbaobao.xyz/book/res/bg.jpg"
       title="MPvue2.0多端小程序课程重磅上线"
@@ -14,12 +18,57 @@
     <div class="home-book">
       <HomeBook
         title="为你推荐"
-        :data="data"
+        :data="recommend"
+        :row="1"
+        :col="3"
+        width="101px"
+        height="147px"
+        imgMode="scaleToFill"
+        mode="col"
+        btnText="换一批"
+        @onMoreClick="onChangeBook('recommend')"
+        @onBookClick="onBookClick"
+      />
+    </div>
+    <div class="home-book">
+      <HomeBook
+        title="免费阅读"
+        :data="freeRead"
         :row="2"
         :col="2"
+        width="64px"
+        height="88px"
+        imgMode="scaleToFill"
+        mode="row"
+        btnText="换一批"
+        @onMoreClick="onChangeBook('freeRead')"
+        @onBookClick="onBookClick"
+      />
+    </div>
+    <div class="home-book">
+      <HomeBook
+        title="当前最热"
+        :data=" hotBook"
+        :row="1"
+        :col="4"
+        width="68px"
+        height="99px"
+        imgMode="scaleToFill"
+        mode="col"
+        btnText="换一批"
+        @onMoreClick="onChangeBook('hotBook')"
+        @onBookClick="onBookClick"
+      />
+    </div>
+     <div class="home-book">
+      <HomeBook
+        title="分类"
+        :data="category"
+        :row="3"
+        :col="2"
         mode="category"
-        btnText="更多"
-        @onMoreClick="onBookMoreClick"
+        btnText="查看全部"
+        @onMoreClick="onFoundAllBook"
         @onBookClick="onBookClick"
       />
     </div>
@@ -31,6 +80,7 @@ import Searchbar from '@/components/Home/Searchbar.vue'
 import HomeCard from '@/components/Home/HomeCard.vue'
 import HomeBanner from '@/components/Home/HomeBanner.vue'
 import HomeBook from '@/components/Home/HomeBook.vue'
+import {getIndexData, recommend, freeRead, hotBook} from '@/API/index.js'
 export default {
   components: {
     Searchbar,
@@ -38,7 +88,70 @@ export default {
     HomeBanner,
     HomeBook
   },
+  mounted() {
+    this.onGetIndexData()
+  },
   methods: {
+    onChangeBook (key) {
+      switch(key) {
+        case 'recommend':
+          recommend().then(response => {
+            const data = response && response.data && response.data.data
+            this.recommend = data
+          })
+        break;
+        case 'freeRead':
+          freeRead().then(response => {
+            const data = response && response.data && response.data.data
+            this.freeRead = data
+          })
+          break;
+        case 'hotBook':
+          hotBook().then(response => {
+            const data = response && response.data && response.data.data
+            this.hotBook = data
+          })
+          break;
+      }
+    },
+    onGetIndexData () {
+      getIndexData({openId: '1234'}).then(response => {
+        const {
+          data: {
+            hotSearch: {
+              keyword
+            },
+            banner,
+            category,
+            freeRead,
+            hotBook,
+            recommend,
+            shelf,
+            shelfCount
+          }
+        } = response.data
+        const userInfo = {
+          avatar: '',
+          nickname: '米老鼠'
+        }
+
+        this.hotSearch = keyword
+        this.banner = banner
+        this.category = category
+        this.freeRead = freeRead
+        this.hotBook = hotBook
+        this.recommend = recommend
+        this.shelf = shelf
+        this.cardData = {
+          userInfo,
+          num: shelfCount,
+          bookList: shelf
+        }
+      })
+    },
+    onFoundAllBook () {
+
+    },
     onBookClick () {
       console.log('book click')
     },
@@ -55,50 +168,14 @@ export default {
   data () {
     return {
       url: 'https://www.youbaobao.xyz/mpvue-res/big.jpg',
-      data: [
-        {
-            "cover":"https://www.youbaobao.xyz/book/res/img/Biomedicine/978-3-319-25474-6_CoverFigure.jpg",
-            "category":12,
-            "categoryText":"Biomedicine",
-            "num":14,
-            "cover2":"https://www.youbaobao.xyz/book/res/img/Biomedicine/978-3-319-72790-5_CoverFigure.jpg"
-        },
-        {
-            "cover":"https://www.youbaobao.xyz/book/res/img/BusinessandManagement/978-3-319-33515-5_CoverFigure.jpg",
-            "category":13,
-            "categoryText":"BusinessandManagement",
-            "num":16,
-            "cover2":"https://www.youbaobao.xyz/book/res/img/BusinessandManagement/978-3-319-95261-1_CoverFigure.jpg"
-        },
-        {
-            "cover":"https://www.youbaobao.xyz/book/res/img/ComputerScience/978-3-319-90415-3_CoverFigure.jpg",
-            "category":1,
-            "categoryText":"ComputerScience",
-            "num":56,
-            "cover2":"https://www.youbaobao.xyz/book/res/img/ComputerScience/978-3-319-96142-2_CoverFigure.jpg"
-        },
-        {
-            "cover":"https://www.youbaobao.xyz/book/res/img/EarthSciences/978-981-10-3713-9_CoverFigure.jpg",
-            "category":14,
-            "categoryText":"EarthSciences",
-            "num":16,
-            "cover2":"https://www.youbaobao.xyz/book/res/img/EarthSciences/978-3-319-65633-5_CoverFigure.jpg"
-        },
-        {
-            "cover":"https://www.youbaobao.xyz/book/res/img/Economics/978-3-319-69772-7_CoverFigure.jpg",
-            "category":3,
-            "categoryText":"Economics",
-            "num":30,
-            "cover2":"https://www.youbaobao.xyz/book/res/img/Economics/978-3-319-91400-8_CoverFigure.jpg"
-        },
-        {
-            "cover":"https://www.youbaobao.xyz/book/res/img/Education/978-3-319-39450-3_CoverFigure.jpg",
-            "category":4,
-            "categoryText":"Education",
-            "num":60,
-            "cover2":"https://www.youbaobao.xyz/book/res/img/Education/978-3-319-52980-6_CoverFigure.jpg"
-        }
-      ]
+      banner: {},
+      category: [],
+      freeRead: [],
+      hotBook: [],
+      hotSearch: {},
+      recommend: [],
+      shelf: [],
+      cardData: {}
     }
   }
 }
@@ -107,5 +184,8 @@ export default {
 <style lang="scss" scoped>
   .home-book {
     margin-top: 23px;
+    &:last-of-type {
+      margin-bottom: 18.5px;
+    }
   }
 </style>
