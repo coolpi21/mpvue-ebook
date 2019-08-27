@@ -1,77 +1,83 @@
 <template>
-  <div class="home">
-    <searchbar
-      :disabled="false"
-      :focus="false"
-      @onClick="onSearchbarClick"
-      :hot-search="hotSearch"
+  <div>
+    <div class="home" v-if="isAuth">
+      <searchbar
+        :disabled="false"
+        :focus="false"
+        @onClick="onSearchbarClick"
+        :hot-search="hotSearch"
+      />
+      <HomeCard
+        :data="cardData"
+      />
+      <HomeBanner
+        img="http://www.youbaobao.xyz/book/res/bg.jpg"
+        title="MPvue2.0多端小程序课程重磅上线"
+        subTitle="马上学习"
+        @onClick="onHomeBannerClick"
+      />
+      <div class="home-book">
+        <HomeBook
+          title="为你推荐"
+          :data="recommend"
+          :row="1"
+          :col="3"
+          width="101px"
+          height="147px"
+          imgMode="scaleToFill"
+          mode="col"
+          btnText="换一批"
+          @onMoreClick="onChangeBook('recommend')"
+          @onBookClick="onBookClick"
+        />
+      </div>
+      <div class="home-book">
+        <HomeBook
+          title="免费阅读"
+          :data="freeRead"
+          :row="2"
+          :col="2"
+          width="64px"
+          height="88px"
+          imgMode="scaleToFill"
+          mode="row"
+          btnText="换一批"
+          @onMoreClick="onChangeBook('freeRead')"
+          @onBookClick="onBookClick"
+        />
+      </div>
+      <div class="home-book">
+        <HomeBook
+          title="当前最热"
+          :data=" hotBook"
+          :row="1"
+          :col="4"
+          width="68px"
+          height="99px"
+          imgMode="scaleToFill"
+          mode="col"
+          btnText="换一批"
+          @onMoreClick="onChangeBook('hotBook')"
+          @onBookClick="onBookClick"
+        />
+      </div>
+      <div class="home-book">
+        <HomeBook
+          title="分类"
+          :data="category"
+          :row="3"
+          :col="2"
+          mode="category"
+          btnText="查看全部"
+          @onMoreClick="onFoundAllBook"
+          @onBookClick="onBookClick"
+        />
+      </div>
+    </div>
+    <Auth
+      v-if="!isAuth"
+      @getUserInfo="getUserInfo"
     />
-    <HomeCard
-      :data="cardData"
-    />
-    <HomeBanner
-      img="http://www.youbaobao.xyz/book/res/bg.jpg"
-      title="MPvue2.0多端小程序课程重磅上线"
-      subTitle="马上学习"
-      @onClick="onHomeBannerClick"
-    />
-    <div class="home-book">
-      <HomeBook
-        title="为你推荐"
-        :data="recommend"
-        :row="1"
-        :col="3"
-        width="101px"
-        height="147px"
-        imgMode="scaleToFill"
-        mode="col"
-        btnText="换一批"
-        @onMoreClick="onChangeBook('recommend')"
-        @onBookClick="onBookClick"
-      />
-    </div>
-    <div class="home-book">
-      <HomeBook
-        title="免费阅读"
-        :data="freeRead"
-        :row="2"
-        :col="2"
-        width="64px"
-        height="88px"
-        imgMode="scaleToFill"
-        mode="row"
-        btnText="换一批"
-        @onMoreClick="onChangeBook('freeRead')"
-        @onBookClick="onBookClick"
-      />
-    </div>
-    <div class="home-book">
-      <HomeBook
-        title="当前最热"
-        :data=" hotBook"
-        :row="1"
-        :col="4"
-        width="68px"
-        height="99px"
-        imgMode="scaleToFill"
-        mode="col"
-        btnText="换一批"
-        @onMoreClick="onChangeBook('hotBook')"
-        @onBookClick="onBookClick"
-      />
-    </div>
-     <div class="home-book">
-      <HomeBook
-        title="分类"
-        :data="category"
-        :row="3"
-        :col="2"
-        mode="category"
-        btnText="查看全部"
-        @onMoreClick="onFoundAllBook"
-        @onBookClick="onBookClick"
-      />
-    </div>
   </div>
 </template>
 
@@ -80,16 +86,32 @@ import Searchbar from '@/components/Home/Searchbar.vue'
 import HomeCard from '@/components/Home/HomeCard.vue'
 import HomeBanner from '@/components/Home/HomeBanner.vue'
 import HomeBook from '@/components/Home/HomeBook.vue'
+import Auth from '@/components/base/Auth.vue'
 import {getIndexData, recommend, freeRead, hotBook} from '@/API/index.js'
+import {getSetting} from '@/API/wechat.js'
 export default {
   components: {
     Searchbar,
     HomeCard,
     HomeBanner,
-    HomeBook
+    HomeBook,
+    Auth
   },
-  mounted() {
-    this.onGetIndexData()
+
+
+  data () {
+    return {
+      url: 'https://www.youbaobao.xyz/mpvue-res/big.jpg',
+      banner: {},
+      category: [],
+      freeRead: [],
+      hotBook: [],
+      hotSearch: {},
+      recommend: [],
+      shelf: [],
+      cardData: {},
+      isAuth: false
+    }
   },
   methods: {
     onChangeBook (key) {
@@ -163,21 +185,26 @@ export default {
     },
     onHomeBannerClick () {
       console.log('banner is clicked...')
+    },
+    getUserInfo () {
+      this.getSetting()
+    },
+    getSetting () {
+      getSetting ('userInfo',
+        () => {
+          console.log('成功')
+          this.isAuth = true
+        },
+        () => {
+          console.log('失败')
+          this.isAuth = false
+        }
+      )
     }
   },
-  data () {
-    return {
-      url: 'https://www.youbaobao.xyz/mpvue-res/big.jpg',
-      banner: {},
-      category: [],
-      freeRead: [],
-      hotBook: [],
-      hotSearch: {},
-      recommend: [],
-      shelf: [],
-      cardData: {}
-    }
-  }
+  mounted() {
+    this.getSetting()
+  },
 }
 </script>
 

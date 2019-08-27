@@ -71,7 +71,7 @@ export default {
     ImageView
   },
   mounted () {
-    console.log(this.bookData)
+    // console.log(this.bookData)
   },
   props: {
     title: String,
@@ -117,7 +117,7 @@ export default {
       data.forEach(book => {
         book.text = CATEGORY[book.categoryText.toLowerCase()]
       })
-      console.log(data)
+      // console.log(data)
       if (data && data.length > 0) {
         const bookCountNumber = row * col
         const _bookData = data.slice(0, bookCountNumber)
