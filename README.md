@@ -14,6 +14,6 @@ npm run dev
 
 # 参考资料
 > [小幕读书](http://www.youbaobao.xyz/mpvue-docs/)  
-> [微信小程序]()
+> [微信小程序](https://developers.weixin.qq.com/doc/)
 
 
