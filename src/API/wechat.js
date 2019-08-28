@@ -7,7 +7,7 @@ export function getSetting (auth, onSuccess, onFail) {
       if (res.authSetting[`scope.${auth}`]) {
         onSuccess(res)
       } else {
-        onFail(res)
+        onFail(res) // 抛出异常
       }
     },
     fail (res) {

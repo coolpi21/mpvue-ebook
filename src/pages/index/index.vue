@@ -89,13 +89,13 @@ import HomeBook from '@/components/Home/HomeBook.vue'
 import Auth from '@/components/base/Auth.vue'
 import {getIndexData, recommend, freeRead, hotBook, register} from '@/API/index.js'
 import {
-    getSetting,
-    getUserInfo,
-    setStorageSync,
-    getStorageSync,
-    getUserOpenId,
-    showLoading,
-    hideLoading
+  getSetting,
+  getUserInfo,
+  setStorageSync,
+  getStorageSync,
+  getUserOpenId,
+  showLoading,
+  hideLoading
 } from '@/API/wechat.js'
 export default {
   components: {
@@ -105,8 +105,6 @@ export default {
     HomeBook,
     Auth
   },
-
-
   data () {
     return {
       url: 'https://www.youbaobao.xyz/mpvue-res/big.jpg',
@@ -123,25 +121,25 @@ export default {
   },
   methods: {
     onChangeBook (key) {
-      switch(key) {
+      switch (key) {
         case 'recommend':
           recommend().then(response => {
             const data = response && response.data && response.data.data
             this.recommend = data
           })
-        break;
+          break
         case 'freeRead':
           freeRead().then(response => {
             const data = response && response.data && response.data.data
             this.freeRead = data
           })
-          break;
+          break
         case 'hotBook':
           hotBook().then(response => {
             const data = response && response.data && response.data.data
             this.hotBook = data
           })
-          break;
+          break
       }
     },
     onGetIndexData (openId, userInfo) {
@@ -196,10 +194,10 @@ export default {
     // 获取用户信息
     getUserInfo () {
       const onGetHomeData = (openId, userInfo) => {
-            this.onGetIndexData(openId, userInfo)
-            register(openId, userInfo)
-          }
-      getUserInfo (
+        this.onGetIndexData(openId, userInfo)
+        register(openId, userInfo)
+      }
+      getUserInfo(
         (userInfo) => {
           console.log(userInfo)
           setStorageSync('userInfo', userInfo)
@@ -219,7 +217,7 @@ export default {
     },
     // 获取用户是否授权
     getSetting () {
-      getSetting ('userInfo',
+      getSetting('userInfo',
         () => {
           console.log('成功')
           this.isAuth = true
@@ -237,9 +235,9 @@ export default {
       // this.onGetIndexData()
     }
   },
-  mounted() {
+  mounted () {
     this.init()
-  },
+  }
 }
 </script>
 
