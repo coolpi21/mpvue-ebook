@@ -93,7 +93,9 @@ import {
     getUserInfo,
     setStorageSync,
     getStorageSync,
-    getUserOpenId
+    getUserOpenId,
+    showLoading,
+    hideLoading
 } from '@/API/wechat.js'
 export default {
   components: {
@@ -171,6 +173,9 @@ export default {
           num: shelfCount,
           bookList: shelf
         }
+        hideLoading()
+      }).catch(() => {
+        hideLoading()
       })
     },
     onFoundAllBook () {
@@ -190,12 +195,12 @@ export default {
     },
     // 获取用户信息
     getUserInfo () {
-      getUserInfo (
-        (userInfo) => {
-          const onGetHomeData = (openId, userInfo) => {
+      const onGetHomeData = (openId, userInfo) => {
             this.onGetIndexData(openId, userInfo)
             register(openId, userInfo)
           }
+      getUserInfo (
+        (userInfo) => {
           console.log(userInfo)
           setStorageSync('userInfo', userInfo)
           const openId = getStorageSync('openId')
@@ -218,6 +223,7 @@ export default {
         () => {
           console.log('成功')
           this.isAuth = true
+          showLoading('正在加载')
           this.getUserInfo()
         },
         () => {

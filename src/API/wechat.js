@@ -65,3 +65,14 @@ export function getUserOpenId (callback) {
     }
   })
 }
+
+export function showLoading (title) {
+  mpvue.showLoading({
+    title,
+    mask: true
+  })
+}
+
+export function hideLoading () {
+  mpvue.hideLoading()
+}
