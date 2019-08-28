@@ -4,6 +4,8 @@
       <div class="userInfo-avatar">
         <ImageView
           :src="avatar"
+          height="100%"
+          mode="scaleToFill"
           round
         />
       </div>
@@ -15,7 +17,7 @@
     </div>
     <div class="home-card-book">
       <div class="book-wrapper">
-        <div class="book-inner-wrapper" v-for="(item, index) in bookList" :key="index">
+        <div class="book-inner-wrapper" v-for="(item, index) in data.bookList" :key="index">
           <ImageView :src="item.cover" />
         </div>
       </div>
@@ -61,13 +63,13 @@ export default {
   },
   computed: {
     avatar() {
-      return this.data && this.data.userInfo && this.data.userInfo.avatar
+      return (this.data && this.data.userInfo && this.data.userInfo.avatarUrl) || ''
     },
     nickname() {
-      return this.data && this.data.userInfo && this.data.userInfo.nickname
+      return (this.data && this.data.userInfo && this.data.userInfo.nickName) || ''
     },
     bookList() {
-      return this.data && this.data.bookList
+      return (this.data && this.data.bookList) || []
     }
   },
   methods: {

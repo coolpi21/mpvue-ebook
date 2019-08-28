@@ -76,7 +76,7 @@
     </div>
     <Auth
       v-if="!isAuth"
-      @getUserInfo="getUserInfo"
+      @getUserInfo="init"
     />
   </div>
 </template>
@@ -87,8 +87,14 @@ import HomeCard from '@/components/Home/HomeCard.vue'
 import HomeBanner from '@/components/Home/HomeBanner.vue'
 import HomeBook from '@/components/Home/HomeBook.vue'
 import Auth from '@/components/base/Auth.vue'
-import {getIndexData, recommend, freeRead, hotBook} from '@/API/index.js'
-import {getSetting} from '@/API/wechat.js'
+import {getIndexData, recommend, freeRead, hotBook, register} from '@/API/index.js'
+import {
+    getSetting,
+    getUserInfo,
+    setStorageSync,
+    getStorageSync,
+    getUserOpenId
+} from '@/API/wechat.js'
 export default {
   components: {
     Searchbar,
@@ -110,7 +116,7 @@ export default {
       recommend: [],
       shelf: [],
       cardData: {},
-      isAuth: false
+      isAuth: true
     }
   },
   methods: {
@@ -136,8 +142,8 @@ export default {
           break;
       }
     },
-    onGetIndexData () {
-      getIndexData({openId: '1234'}).then(response => {
+    onGetIndexData (openId, userInfo) {
+      getIndexData({openId: openId}).then(response => {
         const {
           data: {
             hotSearch: {
@@ -152,10 +158,6 @@ export default {
             shelfCount
           }
         } = response.data
-        const userInfo = {
-          avatar: '',
-          nickname: '米老鼠'
-        }
 
         this.hotSearch = keyword
         this.banner = banner
@@ -165,7 +167,7 @@ export default {
         this.recommend = recommend
         this.shelf = shelf
         this.cardData = {
-          userInfo,
+          userInfo: userInfo,
           num: shelfCount,
           bookList: shelf
         }
@@ -186,24 +188,51 @@ export default {
     onHomeBannerClick () {
       console.log('banner is clicked...')
     },
+    // 获取用户信息
     getUserInfo () {
-      this.getSetting()
+      getUserInfo (
+        (userInfo) => {
+          const onGetHomeData = (openId, userInfo) => {
+            this.onGetIndexData(openId, userInfo)
+            register(openId, userInfo)
+          }
+          console.log(userInfo)
+          setStorageSync('userInfo', userInfo)
+          const openId = getStorageSync('openId')
+          if (!openId || openId.length === 0) {
+            console.log('请求 openId')
+            getUserOpenId(openId => onGetHomeData(openId, userInfo))
+          } else {
+            console.log('openId成功')
+            onGetHomeData(openId, userInfo)
+          }
+        },
+        () => {
+          console.log('Failed...')
+        }
+      )
     },
+    // 获取用户是否授权
     getSetting () {
       getSetting ('userInfo',
         () => {
           console.log('成功')
           this.isAuth = true
+          this.getUserInfo()
         },
         () => {
           console.log('失败')
           this.isAuth = false
         }
       )
+    },
+    init () {
+      this.getSetting()
+      // this.onGetIndexData()
     }
   },
   mounted() {
-    this.getSetting()
+    this.init()
   },
 }
 </script>

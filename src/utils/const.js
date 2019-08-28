@@ -4,6 +4,9 @@ const HOME_BOOK_MODE = {
   'CATEGORY': 'category'
 }
 
+const APP_ID = 'wxc727fcfa7b56a211'
+const APP_SECRET = 'e5d96d8283e53408f60fbf4441fb49f5'
+
 const CATEGORY = {
   computerscience: '计算机科学',
   socialsciences: '社会科学',
@@ -29,4 +32,4 @@ const CATEGORY = {
   statistics: '统计学'
 }
 
-export {HOME_BOOK_MODE, CATEGORY}
+export {HOME_BOOK_MODE, CATEGORY, APP_ID, APP_SECRET}
