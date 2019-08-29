@@ -1,9 +1,9 @@
 <template>
-  <div class="search-item-wrapper">
+  <div class="search-item-wrapper" @click="onClick">
     <div class="search-item-icon">
       <div class="icon-wrapper">
         <van-icon
-          name="like-o"
+          :name="icon"
           color="rgba(0,0,0,.5)"
           :style="{width: '20px', height: '20px'}"
         />
