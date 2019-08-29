@@ -51,10 +51,15 @@
     }
 
     .search-item-list-wrapper {
+      width: 80%;
       margin-left: 10px;
       height: 36.5px;
 
       .item-title {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         font-size: 14px;
         color: #333333;
         line-height: 20px;

@@ -39,6 +39,7 @@
 
 <style lang="scss" scoped>
   .tag-group-wrapper {
+    margin-top: 35px;
     padding: 0 10px;
 
     .tag-group-header {
