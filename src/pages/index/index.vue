@@ -112,7 +112,7 @@ export default {
       category: [],
       freeRead: [],
       hotBook: [],
-      hotSearch: {},
+      hotSearch: '',
       recommend: [],
       shelf: [],
       cardData: {},
@@ -186,7 +186,12 @@ export default {
       console.log('more click')
     },
     onSearchbarClick () {
-      this.$router.push('/pages/search/main')
+      this.$router.push({
+        path: '/pages/search/main',
+        query: {
+          keyword: this.hotSearch
+        }
+      })
     },
     onHomeBannerClick () {
       console.log('banner is clicked...')

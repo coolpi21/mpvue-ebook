@@ -22,7 +22,7 @@
         v-if="publisher"
       />
       <search-table
-        :data="data.list"
+        :data="data.book"
         @onClick="onBookClick"
       />
 </div>

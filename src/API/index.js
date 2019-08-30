@@ -40,3 +40,7 @@ export function register (openId, userInfo) {
 export function search (params) {
   return get(`${API_DATA}/book/search`, params)
 }
+
+export function hotSearch () {
+  return get(`${API_DATA}/book/hot-search`)
+}

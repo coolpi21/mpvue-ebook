@@ -76,3 +76,7 @@ export function showLoading (title) {
 export function hideLoading () {
   mpvue.hideLoading()
 }
+
+export function showToast (params) {
+  mpvue.showToast(params)
+}

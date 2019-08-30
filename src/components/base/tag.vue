@@ -22,11 +22,14 @@
 
 <style lang="scss" scoped>
   .tag-wrapper {
+    max-width: 100%;
     display: flex;
     justify-content: center;
     background: #F7F7F9;
     border-radius: 32px;
     padding: 6px 17px;
+    box-sizing: border-box;
+
     .tag {
       width: 100%;
       overflow: hidden;
@@ -35,6 +38,7 @@
       text-align: center;
       font-size: 14px;
       color: #272E37;
+      box-sizing: border-box;
     }
   }
 </style>

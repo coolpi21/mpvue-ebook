@@ -100,6 +100,8 @@ export default {
       .search-input-content {
         flex: 1;
         margin: 0 8px;
+        color: #333;
+        font-size: 15px;
       }
       .search, .close {
         display: flex;

@@ -8,7 +8,8 @@
       <div class="tag-group" v-for="(text, index) in value" :key="index">
         <Tag
           :text="text"
-          @onClick="onTagClick(index, text)"/>
+          @onClick="onTagClick(text, index)"
+        />
       </div>
     </div>
   </div>
@@ -46,6 +47,7 @@
       display: flex;
       justify-content: space-between;
       padding: 0 6px;
+
       .group-text {
         font-size: 14px;
         color: #333333;
@@ -56,12 +58,17 @@
         color: #3696EF;
       }
     }
+
     .tag-group-inner {
       display: flex;
       flex-flow: row wrap;
       padding: 10px 0 0;
+      max-width: 100%;
+      box-sizing: border-box;
       .tag-group {
+        max-width: 100%;
         padding: 6px;
+        box-sizing: border-box;
       }
     }
 
