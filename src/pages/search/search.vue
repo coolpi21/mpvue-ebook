@@ -71,14 +71,8 @@
     },
 
     methods: {
-      onClick () {
-        console.log('taged...')
-      },
       onTagClick (text, index) {
         console.log('tagged...', text, index)
-      },
-      onBtnClick () {
-        console.log('btn clicked')
       },
       // 请求关键字查询
       onChange (keyword) {
@@ -97,7 +91,6 @@
           keyword
         }).then(response => {
           this.searchList = response.data.data
-          console.log(this.searchList)
         })
       },
       onClear () {
@@ -106,11 +99,11 @@
       onConfirm (keyword) {
         // 判断是否有无关键字
         if (!keyword && keyword.trim().length === 0) {
-          // 没有则用默认关键字
+          // 没有则用默认关键字，有则用搜索关键字
           keyword = this.hotSearchKeyWord
+          // 通过 DOM 元素进行赋值
           this.$refs.searchBar.setValue(keyword)
         }
-        // 有则用搜索关键字
         this.onSearch(keyword)
         // 写入历史记录
         if (!this.historySearch.includes(keyword)) {
@@ -147,11 +140,13 @@
       })
       this.historySearch = getStorageSync('historyKeyArr') || []
     },
+    // 页面滑动事件
     onPageScroll () {
       if (this.searchFocus) {
         this.searchFocus = false
       }
     },
+    // 页面滑动至底部事件
     onReachBottom () {
       // 加载新的数据，若没有则弹出提示框
       if (this.showList) {
