@@ -9,6 +9,7 @@
       />
       <HomeCard
         :data="cardData"
+        @onBookClick="onBookClick"
       />
       <HomeBanner
         img="http://www.youbaobao.xyz/book/res/bg.jpg"
@@ -179,8 +180,14 @@ export default {
     onFoundAllBook () {
 
     },
-    onBookClick () {
-      console.log('book click')
+    onBookClick (book) {
+      console.log(book)
+      this.$router.push({
+        path: '/pages/Detail/main',
+        query: {
+          item: book
+        }
+      })
     },
     onBookMoreClick () {
       console.log('more click')

@@ -17,7 +17,12 @@
     </div>
     <div class="home-card-book">
       <div class="book-wrapper">
-        <div class="book-inner-wrapper" v-for="(item, index) in data.bookList" :key="index">
+        <div
+            class="book-inner-wrapper"
+            v-for="(item, index) in data.bookList"
+            :key="index"
+            @click="onBookClick(item)"
+        >
           <ImageView :src="item.cover" />
         </div>
       </div>
@@ -74,7 +79,9 @@ export default {
   },
   methods: {
     gotoShelf () {},
-    onBookClick () {},
+    onBookClick (book) {
+      this.$emit('onBookClick', book)
+    },
     sign () {},
     onFeedBackClick () {
       Dialog.confirm({
