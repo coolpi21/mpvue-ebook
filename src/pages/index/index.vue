@@ -185,7 +185,7 @@ export default {
       this.$router.push({
         path: '/pages/Detail/main',
         query: {
-          item: book
+          fileName: book.fileName
         }
       })
     },
