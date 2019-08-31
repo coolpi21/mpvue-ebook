@@ -17,6 +17,10 @@
       :contents="contents"
       @readBook="onReadBook"
     />
+    <detail-bottom
+      :is-in-shelf="isInShelf"
+      @handleShelf="onHandleShelf"
+    />
   </div>
 </template>
 
@@ -25,19 +29,30 @@
   import DetailStat from '../../components/Detail/DetailStat'
   import DetailRate from '../../components/Detail/DetailRate'
   import DetailContents from '../../components/Detail/DetailContents'
+  import DetailBottom from '../../components/Detail/DetailBottom'
   import {getStorageSync} from '../../API/wechat'
-  import {detailBook, detailRate, detailContents} from '../../API'
+  import {detailBook, detailRate, detailContents, bookIsInShelf, handleShelf} from '../../API'
 
   export default {
     name: 'detail.vue',
-    components: {DetailContents, DetailRate, DetailStat, DetailBook},
+    components: {DetailBottom, DetailContents, DetailRate, DetailStat, DetailBook},
     data () {
       return {
         book: {},
-        contents: []
+        contents: [],
+        isInShelf: false
       }
     },
     methods: {
+      onHandleShelf () {
+        const openId = getStorageSync('openId')
+        const {fileName} = this.$route.query
+        if (!this.isInShelf) {
+          handleShelf({openId, fileName}).then(()=> {
+            this.onBookIsInShelf()
+          })
+        }
+      },
       onReadBook (href) {
         console.log(href)
       },
@@ -64,11 +79,26 @@
             this.contents = response.data.data
           })
         }
+      },
+      onBookIsInShelf () {
+        const openId = getStorageSync('openId')
+        const {fileName} = this.$route.query
+        if (openId && fileName) {
+          bookIsInShelf({openId, fileName}).then(response => {
+            const {data} = response.data
+            if (data.length === 0) {
+              this.isInShelf = false
+            } else {
+              this.isInShelf = true
+            }
+          })
+        }
       }
     },
     mounted () {
       this.onBookDetail()
       this.onDetailContents()
+      this.onBookIsInShelf()
     }
   }
 </script>

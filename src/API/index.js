@@ -56,3 +56,13 @@ export function detailRate (params) {
 export function detailContents (params) {
   return get(`${API_DATA}/book/contents`, params)
 }
+
+export function bookIsInShelf (params) {
+  return get(`${API_DATA}/book/shelf/get`, params)
+}
+
+export function handleShelf (params) {
+  return get(`${API_DATA}/book/shelf/save`, {
+    shelf: JSON.stringify(params)
+  })
+}
