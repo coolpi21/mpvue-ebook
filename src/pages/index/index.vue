@@ -70,7 +70,7 @@
           :col="2"
           mode="category"
           btnText="查看全部"
-          @onMoreClick="onFoundAllBook"
+          @onMoreClick="onBookMoreClick"
           @onBookClick="onBookClick"
         />
       </div>
@@ -190,7 +190,9 @@ export default {
       })
     },
     onBookMoreClick () {
-      console.log('more click')
+      this.$router.push({
+        path: '/pages/CategoryList/main'
+      })
     },
     onSearchbarClick () {
       this.$router.push({

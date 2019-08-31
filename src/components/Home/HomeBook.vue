@@ -1,6 +1,6 @@
 <template>
   <div class="home-book">
-    <div class="home-book-header">{{title}}</div>
+    <div class="home-book-header" v-if="showTitle">{{title}}</div>
     <div class="home-book-content">
       <div
         class="home-book-content-row"
@@ -230,7 +230,7 @@ export default {
           .category-cover-img {
             position: absolute;
             right: 0;
-            bottom: 0;
+            bottom: 5px;
             .category-cover-img1 {
               position: absolute;
               width: 36px;
