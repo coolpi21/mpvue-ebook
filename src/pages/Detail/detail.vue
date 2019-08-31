@@ -13,6 +13,10 @@
       :rate-value="book.rateValue"
       @onRateChange="onRateChange"
     />
+    <detail-contents
+      :contents="contents"
+      @readBook="onReadBook"
+    />
   </div>
 </template>
 
@@ -20,18 +24,23 @@
   import DetailBook from '../../components/Detail/DetailBook'
   import DetailStat from '../../components/Detail/DetailStat'
   import DetailRate from '../../components/Detail/DetailRate'
+  import DetailContents from '../../components/Detail/DetailContents'
   import {getStorageSync} from '../../API/wechat'
-  import {detailBook, detailRate} from '../../API'
+  import {detailBook, detailRate, detailContents} from '../../API'
 
   export default {
     name: 'detail.vue',
-    components: {DetailRate, DetailStat, DetailBook},
+    components: {DetailContents, DetailRate, DetailStat, DetailBook},
     data () {
       return {
-        book: {}
+        book: {},
+        contents: []
       }
     },
     methods: {
+      onReadBook (href) {
+        console.log(href)
+      },
       onRateChange (value) {
         const openId = getStorageSync('openId')
         const {fileName} = this.$route.query
@@ -42,14 +51,24 @@
       onBookDetail () {
         const openId = getStorageSync('openId')
         const {fileName} = this.$route.query
-        console.log(openId, fileName)
-        detailBook({openId, fileName}).then(response => {
-          this.book = response.data.data
-        })
+        if (openId && fileName) {
+          detailBook({openId, fileName}).then(response => {
+            this.book = response.data.data
+          })
+        }
+      },
+      onDetailContents () {
+        const {fileName} = this.$route.query
+        if (fileName) {
+          detailContents({fileName}).then(response => {
+            this.contents = response.data.data
+          })
+        }
       }
     },
     mounted () {
       this.onBookDetail()
+      this.onDetailContents()
     }
   }
 </script>

@@ -52,3 +52,7 @@ export function detailBook (params) {
 export function detailRate (params) {
   return get(`${API_DATA}/book/rank/save`, params)
 }
+
+export function detailContents (params) {
+  return get(`${API_DATA}/book/contents`, params)
+}
