@@ -31,7 +31,7 @@
   import DetailContents from '../../components/Detail/DetailContents'
   import DetailBottom from '../../components/Detail/DetailBottom'
   import {getStorageSync} from '../../API/wechat'
-  import {detailBook, detailRate, detailContents, bookIsInShelf, handleShelf} from '../../API'
+  import {detailBook, detailRate, detailContents, bookIsInShelf, handleShelf, removeShelf} from '../../API'
 
   export default {
     name: 'detail.vue',
@@ -48,9 +48,21 @@
         const openId = getStorageSync('openId')
         const {fileName} = this.$route.query
         if (!this.isInShelf) {
-          handleShelf({openId, fileName}).then(()=> {
-            this.onBookIsInShelf()
+          handleShelf({openId, fileName}).then(
+            this.onBookIsInShelf
+          )
+        } else {
+          const vue = this
+          mpvue.showModal({
+            title: '提示',
+            content: `是否将《${this.book.title}》移出书架`,
+            success (res) {
+              if (res.confirm) {
+                removeShelf({openId, fileName}).then(vue.onBookIsInShelf)
+              }
+            }
           })
+
         }
       },
       onReadBook (href) {

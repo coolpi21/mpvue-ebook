@@ -66,3 +66,9 @@ export function handleShelf (params) {
     shelf: JSON.stringify(params)
   })
 }
+
+export function removeShelf (params) {
+  return get(`${API_DATA}/book/shelf/remove`, {
+    shelf: JSON.stringify(params)
+  })
+}
