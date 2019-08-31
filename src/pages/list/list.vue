@@ -42,6 +42,8 @@
     },
     mounted () {
       const { title } = this.$route.query
+      this.page = 1
+      this.data = []
       this.getSearchList()
       setNavigationBarTitle(title)
     },
