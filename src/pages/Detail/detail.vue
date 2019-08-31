@@ -20,6 +20,7 @@
     <detail-bottom
       :is-in-shelf="isInShelf"
       @handleShelf="onHandleShelf"
+      @readBook="onReadBook"
     />
   </div>
 </template>
@@ -66,7 +67,26 @@
         }
       },
       onReadBook (href) {
-        console.log(href)
+        const query = {}
+        if (this.book && this.book.fileName) {
+          query.fileName = this.book.fileName
+          query.opf = this.book.opf
+        }
+        if (href) {
+          const index = href.indexOf('/')
+          console.log(index)
+          if (index >= 0) {
+            query.navigation = href.slice(index+1)
+          } else {
+            query.navigation = href
+          }
+        }
+        console.log(query)
+        this.$router.push({
+          path: '/pages/read/main',
+          query
+        })
+        // console.log(href)
       },
       onRateChange (value) {
         const openId = getStorageSync('openId')
