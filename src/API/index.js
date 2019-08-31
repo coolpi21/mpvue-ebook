@@ -48,3 +48,7 @@ export function hotSearch () {
 export function detailBook (params) {
   return get(`${API_DATA}/book/detail`, params)
 }
+
+export function detailRate (params) {
+  return get(`${API_DATA}/book/rank/save`, params)
+}
