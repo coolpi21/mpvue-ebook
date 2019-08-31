@@ -61,8 +61,15 @@
       }
     },
     methods: {
-      showList (book, key) {
-        console.log(book, key)
+      showList (value, key) {
+        console.log(value, key)
+        this.$router.push({
+          path: '/pages/list/main',
+          query: {
+            value,
+            key
+          }
+        })
       },
       onBookClick (book) {
         console.log(book)

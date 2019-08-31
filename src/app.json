@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/main",
     "pages/search/main",
-    "pages/Detail/main"
+    "pages/Detail/main",
+    "pages/list/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
