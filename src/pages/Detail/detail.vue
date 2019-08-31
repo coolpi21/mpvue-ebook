@@ -3,6 +3,12 @@
     <detail-book
       :book="book"
     />
+    <detail-stat
+      :readers="book.readers"
+      :readerNum="book.readerNum"
+      :rankNum="book.rankNum"
+      :rankAvg="book.rankAvg"
+    />
   </div>
 </template>
 
@@ -10,10 +16,11 @@
   import DetailBook from '../../components/Detail/DetailBook'
   import {getStorageSync} from '../../API/wechat'
   import {detailBook} from '../../API'
+  import DetailStat from '../../components/Detail/DetailStat'
 
   export default {
     name: 'detail.vue',
-    components: {DetailBook},
+    components: {DetailStat, DetailBook},
     data () {
       return {
         book: {}
