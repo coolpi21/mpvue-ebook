@@ -80,3 +80,9 @@ export function hideLoading () {
 export function showToast (params) {
   mpvue.showToast(params)
 }
+
+export function setNavigationBarTitle (title) {
+  mpvue.setNavigationBarTitle({
+    title
+  })
+}

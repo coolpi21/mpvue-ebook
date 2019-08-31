@@ -9,13 +9,15 @@
 <script>
   import SearchTable from '../../components/Search/SearchTable'
   import {searchList} from '../../API'
+  import {setNavigationBarTitle, showToast} from '../../API/wechat'
 
   export default {
     name: 'list.vue',
     components: {SearchTable},
     data () {
       return {
-        data: []
+        data: [],
+        page: 1
       }
     },
     methods: {
@@ -25,12 +27,26 @@
         if (value && key) {
           params[key] = value
         }
+        params.page = this.page
         searchList(params).then(response => {
-          this.data = response.data.data
+          const {data} = response.data
+          if (data.length > 0) {
+            this.data.push(...data)
+          } else {
+            showToast({
+              title: '没有更多数据了'
+            })
+          }
         })
       }
     },
     mounted () {
+      const { title } = this.$route.query
+      this.getSearchList()
+      setNavigationBarTitle(title)
+    },
+    onReachBottom () {
+      this.page++
       this.getSearchList()
     }
   }

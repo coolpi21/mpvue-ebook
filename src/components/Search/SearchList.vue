@@ -23,7 +23,6 @@
       />
       <search-table
         :data="data.book"
-        @onClick="onBookClick"
       />
 </div>
 </template>
@@ -62,12 +61,12 @@
     },
     methods: {
       showList (value, key) {
-        console.log(value, key)
         this.$router.push({
           path: '/pages/list/main',
           query: {
             value,
-            key
+            key,
+            title: value
           }
         })
       },
