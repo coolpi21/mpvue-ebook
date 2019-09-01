@@ -5,7 +5,8 @@
     "pages/Detail/main",
     "pages/list/main",
     "pages/CategoryList/main",
-    "pages/read/main"
+    "pages/read/main",
+    "pages/Shelf/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

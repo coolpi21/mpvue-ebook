@@ -9,6 +9,7 @@
       />
       <HomeCard
         :data="cardData"
+        :read-day="readDay"
         @onBookClick="onBookClick"
       />
       <HomeBanner
@@ -98,6 +99,7 @@
     showLoading,
     hideLoading
   } from '@/API/wechat.js'
+  import {bookIsInShelf} from '../../API'
 
   export default {
     components: {
@@ -118,6 +120,7 @@
         recommend: [],
         shelf: [],
         cardData: {},
+        readDay: 0,
         isAuth: true
       }
     },
@@ -156,8 +159,7 @@
               freeRead,
               hotBook,
               recommend,
-              shelf,
-              shelfCount
+              shelf
             }
           } = response.data
 
@@ -170,12 +172,14 @@
           this.shelf = shelf
           this.cardData = {
             userInfo: userInfo,
-            num: shelfCount,
             bookList: shelf
           }
           hideLoading()
         }).catch(() => {
           hideLoading()
+        })
+        bookIsInShelf({openId}).then(response => {
+          this.readDay = response.data.data.length
         })
       },
       onFoundAllBook () {
